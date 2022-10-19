@@ -1,0 +1,41 @@
+#cloud-config
+packages:
+  - apache2
+write_files:
+  - path: /etc/netplan/eth1.yaml
+    content: |
+      network:
+        version: 2
+        ethernets:
+          eth1:
+            dhcp4: true
+  - path: /etc/apache2/sites-available/default-ssl.conf
+    content: |
+      <IfModule mod_ssl.c>
+        <VirtualHost _default_:443>
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/html
+          ErrorLog /var/log/apache2/error.log
+          CustomLog /var/log/apache2/access.log combined
+          SSLEngine on
+          SSLCertificateFile  /etc/ssl/private/apache.key
+          SSLCertificateKeyFile /etc/ssl/certs/apache.crt
+          <FilesMatch "\.(cgi|shtml|phtml|php)$">
+              SSLOptions +StdEnvVars
+          </FilesMatch>
+          <Directory /usr/lib/cgi-bin>
+              SSLOptions +StdEnvVars
+          </Directory>
+        </VirtualHost>
+      </IfModule>
+runcmd:
+  - netplan apply
+  - rm -rf /var/www/html
+  - git clone https://github.com/flo405/example-website.git /var/www/html
+  - printf "cd /var/www/html && git reset --hard && git clean -fd && git pull\n" > /var/www/synch.sh
+  - chmod +x /var/www/synch.sh
+  - printf "* * * * * root /usr/bin/sh /var/www/synch.sh\n" > /etc/cron.d/synch
+  - openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache.key -out /etc/ssl/certs/apache.crt -subj "/C=AT/ST=Vienna/L=Vienna/O=Dis/CN=www.example.com"
+  - a2enmod ssl
+#  - a2ensite default-ssl.conf
+#  - systemctl restart apache2

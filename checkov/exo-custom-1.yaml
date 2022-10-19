@@ -1,0 +1,11 @@
+metadata:
+  id: "EXO-CUSTOM-1"
+  name: "Ensure security group does not allow traffic from 0.0.0.0/0"
+  category: "Network"
+definition:
+  cond_type: "attribute"
+  resource_types: 
+    - "exoscale_security_group_rule"
+  attribute: "cidr"
+  operator: "not_equals"
+  value: "0.0.0.0/0"
