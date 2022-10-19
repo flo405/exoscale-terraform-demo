@@ -3,3 +3,5 @@
 variables.tf
 notes.txt
 .DS_Store
+policies/*
+checkov*
