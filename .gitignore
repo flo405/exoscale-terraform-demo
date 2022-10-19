@@ -3,5 +3,6 @@
 variables.tf
 notes.txt
 .DS_Store
-policies/*
-checkov*
+policies/
+checkov/
+*.lock.hcl
