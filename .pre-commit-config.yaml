@@ -1,8 +1,0 @@
-repos:
-  - repo: local
-    hooks:
-    - id: regula-tf
-      name: Regula for Terraform HCL
-      entry: regula run --no-built-ins --include /Users/flo/Code/terraform/exoscale/policies
-      language: system
-      files: .*(tf)
