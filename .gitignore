@@ -3,8 +3,8 @@
 *.lock.hcl
 variables.tf
 notes.txt
-/policies
-/checkov
+policies/
+checkov/
 *.lock.hcl
 .*
 !/.gitignore
