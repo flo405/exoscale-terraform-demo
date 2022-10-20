@@ -52,6 +52,10 @@ data "template_file" "user_data_jump_server" {
 
 resource "exoscale_compute_instance" "jump-server"  {
   name = "jump-server"
+  labels = tomap({
+    env = "prod"
+    dataclass = "secret"
+    })
   template_id = "79b4fb1c-e115-40ea-9a2d-03b1ca2f2f46"
   zone = "${var.exoscale_zone}"
   type = "standard.micro"

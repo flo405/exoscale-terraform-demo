@@ -18,8 +18,12 @@ resource "exoscale_security_group_rule" "sg-rule-spoke2-1" {
 
 resource "exoscale_compute_instance" "webserver2"  {
   name = "webserver2"
+  labels = tomap({
+    env = "prod"
+    dataclass = "confidential"
+    })
   template_id = "94938d02-6b02-47ad-8812-b678e378c489"
-  zone = "${var.exoscale_zone}"
+  zone = "bg-sof-1"
   type = "standard.micro"
   disk_size = 10
   ssh_key = "key1"

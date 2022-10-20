@@ -2,7 +2,8 @@
 *.tfstate.*
 variables.tf
 notes.txt
-.DS_Store
 policies/
 checkov/
 *.lock.hcl
+.*
+!/.gitignore
